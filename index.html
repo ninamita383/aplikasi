@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="id">
+ <head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260707-05-f6eb95b"}');</script><script src="/_sdk/f432b76fb310b513.telemetry_sdk.js" integrity="sha512-9FJQ55EKmmqhyyik8BhrMVfm0+iYYfb8uOlRsjtkxJMEI97qOVEI4PnHohDjQAtvAep0IOEpdQ64eki0sz62ug=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Tambah Kurang</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet">
+  <style>
+        body { font-family: 'DM Sans', sans-serif; }
+        .btn-num { transition: transform 0.1s; }
+        .btn-num:active { transform: scale(0.93); }
+    </style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="/_sdk/0179d719c431a79e.data_sdk.js" type="text/javascript" integrity="sha512-OsRvJkI5GkC3MJQcgotQYotpzrMSX415GiKKgvYdxQEEkzD/fdchShO2FMSy0PJr/tiINMXOk5Vl2zAgg6bUiA=="></script>
+  <script src="/_sdk/0b3af1c300e720aa.resizing_sdk.js" type="text/javascript" integrity="sha512-nX1P6oXZmEY5wCI2lUVg3BwKu1cr0yi+ZpXgZ0Yn90vkSwvpmyzBMvOyD6VLJUtBwFI2dSrw1b6OvORxSggw3w=="></script>
+ </head>
+ <body data-template-id="__page-root" class="min-h-screen flex items-center justify-center p-4">
+  <main class="w-full max-w-sm">
+   <h1 data-template-id="app-title" class="canva-text text-center mb-6 font-bold"></h1>
+   <div data-template-id="calc-body" class="canva-card rounded-2xl p-6 shadow-xl">
+    <div id="display" class="text-right text-4xl font-bold mb-6 p-4 rounded-xl bg-gray-900 text-white min-h-[72px] flex items-center justify-end overflow-hidden">
+     0
+    </div>
+    <div class="grid grid-cols-4 gap-3"><button class="btn-num col-span-2 p-4 rounded-xl text-xl font-semibold bg-red-100 text-red-700 hover:bg-red-200" onclick="clearCalc()">C</button> <button class="btn-num p-4 rounded-xl text-xl font-semibold bg-amber-100 text-amber-800 hover:bg-amber-200" onclick="setOp('-')">−</button> <button class="btn-num p-4 rounded-xl text-xl font-semibold bg-amber-100 text-amber-800 hover:bg-amber-200" onclick="setOp('+')">+</button> <button class="btn-num p-4 rounded-xl text-xl font-semibold bg-white border border-gray-200 hover:bg-gray-50" onclick="addDigit('7')">7</button> <button class="btn-num p-4 rounded-xl text-xl font-semibold bg-white border border-gray-200 hover:bg-gray-50" onclick="addDigit('8')">8</button> <button class="btn-num p-4 rounded-xl text-xl font-semibold bg-white border border-gray-200 hover:bg-gray-50" onclick="addDigit('9')">9</button> <button class="btn-num p-4 rounded-xl text-xl font-semibold bg-white border border-gray-200 hover:bg-gray-50" onclick="addDigit('4')">4</button> <button class="btn-num p-4 rounded-xl text-xl font-semibold bg-white border border-gray-200 hover:bg-gray-50" onclick="addDigit('5')">5</button> <button class="btn-num p-4 rounded-xl text-xl font-semibold bg-white border border-gray-200 hover:bg-gray-50" onclick="addDigit('6')">6</button> <button class="btn-num p-4 rounded-xl text-xl font-semibold bg-white border border-gray-200 hover:bg-gray-50" onclick="addDigit('1')">1</button> <button class="btn-num p-4 rounded-xl text-xl font-semibold bg-white border border-gray-200 hover:bg-gray-50" onclick="addDigit('2')">2</button> <button class="btn-num p-4 rounded-xl text-xl font-semibold bg-white border border-gray-200 hover:bg-gray-50" onclick="addDigit('3')">3</button> <button class="btn-num p-4 rounded-xl text-xl font-semibold bg-white border border-gray-200 hover:bg-gray-50" onclick="addDigit('0')">0</button> <button class="btn-num col-span-3 p-4 rounded-xl text-xl font-bold bg-teal-600 text-white hover:bg-teal-700" onclick="calculate()">=</button>
+    </div>
+   </div>
+  </main>
+  <script src="/_sdk/e063511df281944a.editing_sdk.js" integrity="sha512-Xa8p4aPfoMxVnzxQE2WAG0FfoaPLxdjOJMfUZGm1yZosJTYmnNDvgLkJ2EoN0i3zxjeQVAzUMSXNvTKQVqbXyQ=="></script>
+  <script>
+        let current = '0', prev = null, op = null, fresh = true;
+        const display = document.getElementById('display');
+
+        function update() { display.textContent = current; }
+
+        function addDigit(d) {
+            if (fresh) { current = ''; fresh = false; }
+            if (current.length >= 12) return;
+            current += d;
+            if (current === '' || current === '0') current = '0';
+            else current = String(Number(current));
+            update();
+        }
+
+        function setOp(o) {
+            if (prev !== null && !fresh) calculate();
+            prev = Number(current);
+            op = o;
+            fresh = true;
+        }
+
+        function calculate() {
+            if (prev === null || op === null) return;
+            const b = Number(current);
+            current = String(op === '+' ? prev + b : prev - b);
+            prev = null; op = null; fresh = true;
+            update();
+        }
+
+        function clearCalc() {
+            current = '0'; prev = null; op = null; fresh = true;
+            update();
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a174d87170f1fd1f',t:'MTc4MzQwNjI5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
